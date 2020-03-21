@@ -1,4 +1,4 @@
-from src.util import Util
+from util.util import Util
 from src.MainWindow import MainWindow
 import tkinter as tk
 

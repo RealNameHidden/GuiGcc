@@ -1,14 +1,19 @@
 from util.util import Util
 from util.commandDict import CommandDict as cd
+from tkinter import filedialog
 import tkinter as tk
 import subprocess
 
 
 class MainWindow:
-    file = 'C:\\Users\\14387\\Desktop\\winme.c'
+    filename = 'Select a file'
     dict = cd()
     executeList=['C:\\MinGW\\bin\\gcc.exe','gcc']
 
+    def openFileDialog(self,lbl_file):
+        self.filename = filedialog.askopenfilename(initialdir="/", title="Select A File",
+                                                   filetypes=(("c files", "*.c"), ("all files", "*.*")))
+        lbl_file.configure(text=self.filename)
     def getCommands(self,baseList):
         if baseList['checkCompile'].get():
             self.executeList.append(self.dict.gcc_basic['checkCompile'])
@@ -21,12 +26,12 @@ class MainWindow:
         #     if command.get():
         #         # self.executeList.append(self.dict.gcc_basic[command])
         #         print(command.get())
-        self.executeList.append(self.file)
+        self.executeList.append(self.filename)
 
     def runCommand(self,T,baseList):
          self.getCommands( baseList)
          print(self.executeList)
-         quote = subprocess.run(self.executeList, capture_output=True)
+         quote = subprocess.run(self.executeList, shell=True ,capture_output=True)
          T.delete('1.0', tk.END)
          print(quote)
          if quote.returncode==0:
@@ -93,11 +98,14 @@ class MainWindow:
         Frame 3 - File picker & Label
         """
         frame3 = tk.Frame(frame0, bg="#241C15", bd=2)
-        frame3.place(relx=0.02, rely=0.1, relwidth=0.3, relheight=0.05)
-        btn_file = tk.Button(frame3, text="File", width=3, bg="#F6F6F4")
-        btn_file.place(relwidth=0.4, relheight=1)
+        frame3.place(relx=0.02, rely=0.1, relwidth=0.5, relheight=0.05)
+        lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
+        lbl_file.place(relx=0.1,relwidth=1)
+        btn_file = tk.Button(frame3, text="File", width=3, bg="#F6F6F4", command=lambda: self.openFileDialog(lbl_file))
+        btn_file.place(relwidth=0.2, relheight=1)
         # label
-        lbl_file = tk.Label(frame3, text="C:/Hello.c", bg="#241C15", fg="#8C8C8C")
+
+        lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
         lbl_file.place(relx=0.5)
 
         """

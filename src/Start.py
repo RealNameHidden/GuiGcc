@@ -23,6 +23,8 @@ class Start:
             Setting the window to the middle of the screen
             """
             self.util.center_window(width_of_window,height_of_window,self.root)
+            frame0 = tk.Frame(self.root, bg="#8C8C8C")
+            frame0.place(relx=0, rely=0, relwidth=1, relheight=1)
             frame1 = tk.Frame(self.root , bg="#AEB6BF")
             frame1.place(relx=0.01,rely=0.01,relwidth=0.99,relheight=0.99)
 

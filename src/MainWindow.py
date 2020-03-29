@@ -4,9 +4,9 @@ import subprocess
 
 class MainWindow:
     def __init__(self):
-        util = Util();
-        root = tk.Tk();
-        root.title("Smart Gcc GUI");
+        util = Util()
+        root = tk.Tk()
+        root.title("Smart Gcc GUI")
 
         width_of_window = 600;
         height_of_window = 700;
@@ -26,16 +26,7 @@ class MainWindow:
         btn_switch=tk.Button(frame0, text="Switch mode", bd=3, activebackground="#BCE27F")
         btn_switch.place(relx=0.95, rely=0.02 , anchor="ne")
 
-        """
-        Frame - all options
-        """
-        # selected = str()
-        # Options = ["-O2",
-        #            "-O3"]
-        # frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)
-        # frameAllOptions.place(relx=0.8, rely=0.1, relwidth=0.3, relheight=0.05)
-        # btn_alloptions = tk.OptionMenu(frameAllOptions, text="All options",variable= selected, *Options, width=3, bg="#F6F6F4")
-        # btn_alloptions.place(relwidth=0.4, relheight=1)
+
 
 
         """
@@ -83,7 +74,7 @@ class MainWindow:
         checkLink = int()
         ########
 
-        frame4 = tk.Frame(root, bg="#241C15", bd=2)
+        frame4 = tk.Frame(frame0, bg="#241C15", bd=2)
         frame4.place(relx = 0.02, rely = 0.2, relwidth = 0.4, relheight = 0.05)
         chk_compile = tk.Checkbutton(frame4, text="Compile", variable= checkCompile,  onvalue=1, offvalue=0, selectcolor="#BCE27F")
         chk_debug = tk.Checkbutton(frame4, text="Debug", variable= checkDebug,  onvalue=1, offvalue=0, selectcolor="#BCE27F")
@@ -95,6 +86,21 @@ class MainWindow:
         """
         Frame 5 - All options menu 
         """
+        Options = ['Option 1',
+                   'Option 2',
+                   'Option 3']
+        selected = tk.StringVar()
+        selected.set("All Options")
+        frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)
+        frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
+        btn_f = tk.OptionMenu(frameAllOptions, selected, *Options )
+        btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')
+        ##### List Box ####
 
+        usedOptions =tk.Listbox(frameAllOptions)
+        usedOptions.insert(0,"-fopt")
+        usedOptions.place(relx=0,rely=0.2, relwidth=1)
+
+        root.mainloop()
 
 

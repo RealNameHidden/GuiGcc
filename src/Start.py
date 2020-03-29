@@ -7,7 +7,7 @@ class Start:
     root = tk.Tk()
     def makeWindow(self,event):
         print("Hi")
-        # self.root.destroy();
+        self.root.destroy()
         main = MainWindow()
 
 

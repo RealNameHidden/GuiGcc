@@ -12,9 +12,9 @@ class MainWindow:
     filename = defaultFile
     dict = cd()
     executeList=['C:\\MinGW\\bin\\gcc.exe']
-
-
-
+    
+    def updateListBox(self,listBox,value):
+        listBox.insert(0,value)
 
     def askSwitchMode(self, root):
        ans= messagebox.askquestion(title="Switch user mode", message="Switching user mode will close the current window, do you want proceed?")
@@ -141,7 +141,6 @@ class MainWindow:
         """
         ########
 
-
         frame4 = tk.Frame(frame0, bg="#241C15", bd=2)
         frame4.place(relx = 0.02, rely = 0.2, relwidth = 0.4, relheight = 0.05)
         chk_compile = tk.Checkbutton(frame4, text="Compile", variable= checkCompile, selectcolor="#BCE27F")
@@ -154,21 +153,19 @@ class MainWindow:
         """
         Frame 5 - All options menu 
         """
-        Options = ['Option 1',
-                   'Option 2',
-                   'Option 3']
+        Options = cd.gcc_codegeneration.values()
         selected = tk.StringVar()
 
         selected.set("All Options")
         frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
-        btn_f = tk.OptionMenu(frameAllOptions, selected, *Options )
+        usedOptions = tk.Listbox(frameAllOptions)
+        usedOptions.place(relx=0, rely=0.2, relwidth=1)
+        btn_f = tk.OptionMenu(frameAllOptions, selected, *Options, command = lambda x: self.updateListBox(usedOptions,x))
         btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')
 
         ##### List Box ####
-        usedOptions = tk.Listbox(frameAllOptions)
-        usedOptions.insert(0,"-fopt")
-        usedOptions.place(relx=0,rely=0.2, relwidth=1)
+
 
         root.mainloop()
 

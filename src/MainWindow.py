@@ -8,27 +8,28 @@ import subprocess
 
 
 class MainWindow:
-    filename = 'Select a file'
+    defaultFile='Select a file'
+    filename = defaultFile
     dict = cd()
     executeList=['C:\\MinGW\\bin\\gcc.exe']
 
 
 
 
-    def askSwitchMode(self):
+    def askSwitchMode(self, root):
        ans= messagebox.askquestion(title="Switch user mode", message="Switching user mode will close the current window, do you want proceed?")
        if ans=='yes':
-           # self.root.destroy()
+           root.destroy()
            start_window = start.Start()
 
     def openFileDialog(self,lbl_file):
         self.filename = filedialog.askopenfilename(initialdir="/", title="Select A File",
                                                    filetypes=(("c files", "*.c"), ("all files", "*.*")))
-        lbl_file.configure(text=self.filename)
+        if self.filename!="":
+            lbl_file.configure(text=self.filename)
     def getCommands(self,baseList):
         if baseList['checkCompile'].get():
             self.executeList.append(self.dict.gcc_basic['checkCompile'])
-
         if baseList['checkLink'].get():
             self.executeList.append(self.dict.gcc_basic['checkLink'])
         if baseList['checkDebug'].get():
@@ -37,17 +38,25 @@ class MainWindow:
         #     if command.get():
         #         # self.executeList.append(self.dict.gcc_basic[command])
         #         print(command.get())
-        self.executeList.append(self.filename)
+        if self.filename!=self.defaultFile and self.filename!="":
+            self.executeList.append(self.filename)
 
     def runCommand(self,T,baseList):
          self.getCommands( baseList)
 
-         if self.filename != 'Select a file':
+         if self.filename != self.defaultFile and self.filename != "":
+             commandListString =""
              quote = subprocess.run(self.executeList, shell=True ,capture_output=True)
              T.delete('1.0', tk.END)
              print(quote)
              if quote.returncode==0:
                 T.insert(tk.END, "---Command execution successful---\n\n")
+                itercom = iter(self.executeList)
+                next(itercom)
+                for com in itercom:
+                    commandListString= commandListString+ com +" "
+                print(commandListString)
+                T.insert(tk.END,"command:"+" gcc "+ commandListString )
              else:
                  T.insert(tk.END, "Error in command!\n\n")
                  T.insert(tk.END, quote.stderr.decode())
@@ -77,8 +86,6 @@ class MainWindow:
         loop to check if optionButton value changed
         """
 
-
-
         """
         Background frame
         """
@@ -90,7 +97,7 @@ class MainWindow:
         """
         lbl_user=tk.Label(frame0, text="Novice", font="TimesNewRoman", bg="#8C8C8C", padx=4)
         lbl_user.place(relx=0.02, rely=0.02)
-        btn_switch=tk.Button(frame0, text="Switch mode", bd=3, activebackground="#BCE27F", command=self.askSwitchMode)
+        btn_switch=tk.Button(frame0, text="Switch mode", bd=3, activebackground="#BCE27F", command= lambda: self.askSwitchMode(root))
         btn_switch.place(relx=0.95, rely=0.02 , anchor="ne")
 
         """
@@ -100,7 +107,7 @@ class MainWindow:
         frame2 = tk.Frame(frame0, bg="#668E39", bd=2)
         frame2.place(relx=0.01, rely=0.5, relwidth=0.98, relheight=0.5)
         S = tk.Scrollbar(frame2, bd=3)
-        T = tk.Text(frame2, height=4, width=400, background="black", foreground="white", font="cambria")
+        T = tk.Text(frame2, height=4, width=400, background="black", foreground="white", font=("sans-serif",10))
         S.pack(side=tk.RIGHT, fill=tk.Y)
         T.pack(side=tk.LEFT, fill=tk.Y)
         S.config(command=T.yview)
@@ -122,7 +129,7 @@ class MainWindow:
         frame3.place(relx=0.02, rely=0.1, relwidth=0.5, relheight=0.05)
         lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
         lbl_file.place(relx=0.1,relwidth=1)
-        btn_file = tk.Button(frame3, text="File", width=3, bg="#F6F6F4", command=lambda: self.openFileDialog(lbl_file))
+        btn_file = tk.Button(frame3, text="File", width=3, bg="#F6F6F4", command = lambda: self.openFileDialog(lbl_file))
         btn_file.place(relwidth=0.2, relheight=1)
         # label
 
@@ -160,7 +167,6 @@ class MainWindow:
 
         ##### List Box ####
         usedOptions = tk.Listbox(frameAllOptions)
-
         usedOptions.insert(0,"-fopt")
         usedOptions.place(relx=0,rely=0.2, relwidth=1)
 

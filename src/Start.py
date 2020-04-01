@@ -15,8 +15,8 @@ class Start:
 
             self.root.title("Smart Gcc GUI")
 
-            width_of_window=300;
-            height_of_window=400;
+            width_of_window=300
+            height_of_window=400
             canvas = tk.Canvas(self.root,width=width_of_window,height=height_of_window)
             canvas.pack()
             """

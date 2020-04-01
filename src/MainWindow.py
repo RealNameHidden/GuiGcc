@@ -1,6 +1,8 @@
 from util.util import Util
 from util.commandDict import CommandDict as cd
 from tkinter import filedialog
+from tkinter import messagebox
+import src.Start as start
 import tkinter as tk
 import subprocess
 
@@ -8,7 +10,16 @@ import subprocess
 class MainWindow:
     filename = 'Select a file'
     dict = cd()
-    executeList=['C:\\MinGW\\bin\\gcc.exe','gcc']
+    executeList=['C:\\MinGW\\bin\\gcc.exe']
+
+
+
+
+    def askSwitchMode(self):
+       ans= messagebox.askquestion(title="Switch user mode", message="Switching user mode will close the current window, do you want proceed?")
+       if ans=='yes':
+           # self.root.destroy()
+           start_window = start.Start()
 
     def openFileDialog(self,lbl_file):
         self.filename = filedialog.askopenfilename(initialdir="/", title="Select A File",
@@ -30,18 +41,21 @@ class MainWindow:
 
     def runCommand(self,T,baseList):
          self.getCommands( baseList)
-         print(self.executeList)
-         quote = subprocess.run(self.executeList, shell=True ,capture_output=True)
-         T.delete('1.0', tk.END)
-         print(quote)
-         if quote.returncode==0:
-            T.insert(tk.END, "---Command execution successful---\n\n")
+
+         if self.filename != 'Select a file':
+             quote = subprocess.run(self.executeList, shell=True ,capture_output=True)
+             T.delete('1.0', tk.END)
+             print(quote)
+             if quote.returncode==0:
+                T.insert(tk.END, "---Command execution successful---\n\n")
+             else:
+                 T.insert(tk.END, "Error in command!\n\n")
+                 T.insert(tk.END, quote.stderr.decode())
+             T.insert(tk.END, quote.stdout.decode())
+             self.executeList = ['C:\\MinGW\\bin\\gcc.exe']
          else:
-             T.insert(tk.END, "Error in command!\n\n")
-             T.insert(tk.END, quote.stderr.decode())
-         T.insert(tk.END, quote.stdout.decode())
-         self.executeList = ['C:\\MinGW\\bin\\gcc.exe', 'gcc']
-         return quote
+             messagebox.showerror("No file selected.",  "Please select a file to compile.")
+
 
     def __init__(self):
         util = Util()
@@ -58,6 +72,13 @@ class MainWindow:
         checkLink = tk.BooleanVar()
         ########
         basicList = {'checkCompile':checkCompile,'checkDebug': checkDebug, 'checkLink':checkLink}
+        ########
+        """
+        loop to check if optionButton value changed
+        """
+
+
+
         """
         Background frame
         """
@@ -65,11 +86,11 @@ class MainWindow:
         frame0.place(relx=0,rely=0,relwidth=1,relheight=1)
 
         """
-        Frame - user mode
+        Frame - switch user mode
         """
         lbl_user=tk.Label(frame0, text="Novice", font="TimesNewRoman", bg="#8C8C8C", padx=4)
         lbl_user.place(relx=0.02, rely=0.02)
-        btn_switch=tk.Button(frame0, text="Switch mode", bd=3, activebackground="#BCE27F")
+        btn_switch=tk.Button(frame0, text="Switch mode", bd=3, activebackground="#BCE27F", command=self.askSwitchMode)
         btn_switch.place(relx=0.95, rely=0.02 , anchor="ne")
 
         """
@@ -130,14 +151,16 @@ class MainWindow:
                    'Option 2',
                    'Option 3']
         selected = tk.StringVar()
+
         selected.set("All Options")
         frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
         btn_f = tk.OptionMenu(frameAllOptions, selected, *Options )
         btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')
-        ##### List Box ####
 
-        usedOptions =tk.Listbox(frameAllOptions)
+        ##### List Box ####
+        usedOptions = tk.Listbox(frameAllOptions)
+
         usedOptions.insert(0,"-fopt")
         usedOptions.place(relx=0,rely=0.2, relwidth=1)
 

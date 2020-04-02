@@ -3,6 +3,7 @@ from util.commandDict import CommandDict as cd
 from tkinter import filedialog
 from tkinter import messagebox
 import src.Start as start
+import src.FileWindow as fileWindow
 import tkinter as tk
 import subprocess
 
@@ -12,7 +13,7 @@ class MainWindow:
     filename = defaultFile
     dict = cd()
     executeList=['C:\\MinGW\\bin\\gcc.exe']
-    
+
     def updateListBox(self,listBox,value):
         listBox.insert(0,value)
 
@@ -27,6 +28,7 @@ class MainWindow:
                                                    filetypes=(("c files", "*.c"), ("all files", "*.*")))
         if self.filename!="":
             lbl_file.configure(text=self.filename)
+            fileWindow.FileWindow(self.filename)
     def getCommands(self,baseList):
         if baseList['checkCompile'].get():
             self.executeList.append(self.dict.gcc_basic['checkCompile'])

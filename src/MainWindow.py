@@ -13,9 +13,18 @@ class MainWindow:
     filename = defaultFile
     dict = cd()
     executeList=['C:\\MinGW\\bin\\gcc.exe']
+    selectedOptions = set([])
 
-    def updateListBox(self,listBox,value):
+    def selectUsedOption(self, event):
+        widget = event.widget
+        selection = widget.curselection()
+        if len(selection)!=0:
+            value = widget.get(selection[0])
+            self.selectedOptions.add(value)
+
+    def selectOptionUpdateListBox(self, listBox, value):
         listBox.insert(0,value)
+        self.selectedOptions.add(value)
 
     def askSwitchMode(self, root):
        ans= messagebox.askquestion(title="Switch user mode", message="Switching user mode will close the current window, do you want proceed?")
@@ -36,10 +45,11 @@ class MainWindow:
             self.executeList.append(self.dict.gcc_basic['checkLink'])
         if baseList['checkDebug'].get():
             self.executeList.append(self.dict.gcc_basic['checkDebug'])
-        # for command in basicList:
-        #     if command.get():
-        #         # self.executeList.append(self.dict.gcc_basic[command])
-        #         print(command.get())
+
+        #Adding options
+        for option in self.selectedOptions:
+            self.executeList.append(option)
+
         if self.filename!=self.defaultFile and self.filename!="":
             self.executeList.append(self.filename)
 
@@ -63,7 +73,10 @@ class MainWindow:
                  T.insert(tk.END, "Error in command!\n\n")
                  T.insert(tk.END, quote.stderr.decode())
              T.insert(tk.END, quote.stdout.decode())
+
+             #Emtying lists
              self.executeList = ['C:\\MinGW\\bin\\gcc.exe']
+             self.selectedOptions.clear()
          else:
              messagebox.showerror("No file selected.",  "Please select a file to compile.")
 
@@ -161,14 +174,13 @@ class MainWindow:
         selected.set("All Options")
         frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
-        usedOptions = tk.Listbox(frameAllOptions)
+        usedOptions = tk.Listbox(frameAllOptions, selectmode=tk.MULTIPLE)
         usedOptions.place(relx=0, rely=0.2, relwidth=1)
-        btn_f = tk.OptionMenu(frameAllOptions, selected, *Options, command = lambda x: self.updateListBox(usedOptions,x))
+        usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
+        btn_f = tk.OptionMenu(frameAllOptions, selected, *Options, command = lambda x: self.selectOptionUpdateListBox(usedOptions, x))
         btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')
 
         ##### List Box ####
-
-
         root.mainloop()
 
 

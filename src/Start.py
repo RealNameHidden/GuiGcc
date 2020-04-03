@@ -1,14 +1,21 @@
 from util.util import Util
-from src.MainWindow import MainWindow
+from src.NoviceWindow import NoviceWindow
+from src.TypicalWindow import TypicalWindow
+from src.ExpertWindow import ExpertWindow
 import tkinter as tk
 
 class Start:
     util = Util()
 
-    def makeWindow(self,root):
-        print("Hi")
+    def makeWindow(self,root,type):
+        print(type)
         root.destroy()
-        main = MainWindow()
+        if type =='Beginner':
+            main = NoviceWindow()
+        elif type =='Medium':
+            main = TypicalWindow()
+        elif type =='Expert':
+            main = ExpertWindow()
 
 
     def __init__(self):
@@ -29,11 +36,11 @@ class Start:
             frame1 = tk.Frame(root , bg="#AEB6BF")
             frame1.place(relx=0.01,rely=0.01,relwidth=0.99,relheight=0.99)
 
-            btn_beginner = tk.Button(frame1, text="Beginner", width=6, command= lambda: self.makeWindow(root))
+            btn_beginner = tk.Button(frame1, text="Beginner", width=6, command= lambda: self.makeWindow(root,btn_beginner.cget('text')))
             btn_beginner.pack()
-            btn_medium = tk.Button(frame1, text="Medium", width=6)
+            btn_medium = tk.Button(frame1, text="Medium", width=6,  command= lambda: self.makeWindow(root,btn_medium.cget('text')))
             btn_medium.pack()
-            btn_expert = tk.Button(frame1, text="Expert", width=6)
+            btn_expert = tk.Button(frame1, text="Expert", width=6,  command= lambda: self.makeWindow(root,btn_expert.cget('text')))
             btn_expert.pack()
 
             # btn_beginner.bind('<Button-1>', self.makeWindow)

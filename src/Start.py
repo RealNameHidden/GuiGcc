@@ -3,19 +3,36 @@ from src.NoviceWindow import NoviceWindow
 from src.TypicalWindow import TypicalWindow
 from src.ExpertWindow import ExpertWindow
 import tkinter as tk
+import pickle as pickle
 
 class Start:
     util = Util()
-
+    preferred_screen=""
     def makeWindow(self,root,type):
-        print(type)
+
         root.destroy()
+
         if type =='Beginner':
-            main = NoviceWindow()
+                self.preferred_screen = type
+                main = NoviceWindow()
+                with open('settings.txt', 'wb') as settings:
+                    # Step 3
+                    pickle.dump(self, settings, -1)
         elif type =='Medium':
-            main = TypicalWindow()
+                self.preferred_screen = type
+                main = TypicalWindow()
+                with open('settings.txt', 'wb') as settings:
+                    # Step 3
+                    pickle.dump(self, settings, -1)
         elif type =='Expert':
-            main = ExpertWindow()
+                self.preferred_screen = type
+                main = ExpertWindow()
+                with open('settings.txt', 'wb') as settings:
+                    # Step 3
+                    pickle.dump(self, settings, -1)
+
+
+
 
 
     def __init__(self):

@@ -13,7 +13,7 @@ class ExpertWindow:
     defaultFile = 'Select a file'
     filename = defaultFile
     dict = cd()
-    executeList = ['C:\\MinGW\\bin\\gcc.exe']
+    executeList = ['C:\\MinGW\\bin\\gcc.exe','-S']
     selectedOptions = set([])
 
     def typicalUserOption (self, value):
@@ -58,7 +58,7 @@ class ExpertWindow:
 
         if self.filename != self.defaultFile and self.filename != "":
             self.executeList.append(self.filename)
-
+        self.executeList.append('-o''-')
     def runCommand(self, T, baseList):
         self.getCommands(baseList)
 
@@ -81,7 +81,7 @@ class ExpertWindow:
             T.insert(tk.END, quote.stdout.decode())
 
             # Emtying lists
-            self.executeList = ['C:\\MinGW\\bin\\gcc.exe']
+            self.executeList = ['C:\\MinGW\\bin\\gcc.exe','-S']
             self.selectedOptions.clear()
         else:
             messagebox.showerror("No file selected.", "Please select a file to compile.")
@@ -188,7 +188,7 @@ class ExpertWindow:
         """
         Expert user options
         """
-        developerOptions = cd.gcc_codeoptimization.values()
+        developerOptions = cd.gcc_developeroptions.values()
         developerOption = tk.StringVar()
         developerOption.set("Developer")
         btn_dev = tk.OptionMenu(frameTOptions,developerOption, *developerOptions,

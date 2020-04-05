@@ -7,6 +7,10 @@ import pickle as pickle
 import os
 
 class Start:
+
+    #############################Change the location of the gcc compiler accordingly###############################
+    gccCompilerPath='C:\\MinGW\\bin\\gcc.exe'
+    ###############################################################################################################
     empty=set([])
     util = Util()
     preferred_screen=""

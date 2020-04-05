@@ -14,7 +14,7 @@ class NoviceWindow:
     defaultFile = 'Select a file'
     filename = defaultFile
     dict = cd()
-    executeList = ['C:\\MinGW\\bin\\gcc.exe']
+    executeList = ['C:\\MinGW\\bin\\gcc.exe','-S']
     selectedOptions = set([])
     listBoxBuffer = set([])
 
@@ -69,7 +69,7 @@ class NoviceWindow:
 
         if self.filename != self.defaultFile and self.filename != "":
             self.executeList.append(self.filename)
-
+        self.executeList.append('-o''-')
     def runCommand(self, T, baseList):
         self.getCommands(baseList)
 
@@ -99,7 +99,7 @@ class NoviceWindow:
 
 
             # Emptying lists
-            self.executeList = ['C:\\MinGW\\bin\\gcc.exe']
+            self.executeList = ['C:\\MinGW\\bin\\gcc.exe','-S']
             self.selectedOptions.clear()
         else:
             messagebox.showerror("No file selected.", "Please select a file to compile.")
@@ -193,7 +193,7 @@ class NoviceWindow:
         """
         Frame 5 - All options menu 
         """
-        z = {**cd.gcc_codegeneration, **cd.gcc_codeoptimization}
+        z = {**cd.gcc_codegeneration, **cd.gcc_codeoptimization, **cd.gcc_developeroptions}
         Options = z.values()
         # selected = tk.StringVar()
 

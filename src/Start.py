@@ -4,6 +4,7 @@ from src.TypicalWindow import TypicalWindow
 from src.ExpertWindow import ExpertWindow
 import tkinter as tk
 import pickle as pickle
+import os
 
 class Start:
     util = Util()
@@ -14,26 +15,22 @@ class Start:
 
         if type =='Beginner':
                 self.preferred_screen = type
-                main = NoviceWindow()
+
+                novice = NoviceWindow()
                 with open('settings.txt', 'wb') as settings:
-                    # Step 3
                     pickle.dump(self, settings, -1)
         elif type =='Medium':
                 self.preferred_screen = type
-                main = TypicalWindow()
+                medium = TypicalWindow()
                 with open('settings.txt', 'wb') as settings:
-                    # Step 3
                     pickle.dump(self, settings, -1)
+                    # pickle.dump(medium, settings, -2)
         elif type =='Expert':
                 self.preferred_screen = type
-                main = ExpertWindow()
+                expert = ExpertWindow()
                 with open('settings.txt', 'wb') as settings:
-                    # Step 3
                     pickle.dump(self, settings, -1)
-
-
-
-
+                    # pickle.dump(expert, settings, -2)
 
     def __init__(self):
             root = tk.Tk()

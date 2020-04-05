@@ -15,6 +15,7 @@ class TypicalWindow:
     dict = cd()
     executeList = ['C:\\MinGW\\bin\\gcc.exe']
     selectedOptions = set([])
+    listBoxBuffer = set([])
 
     def typicalUserOption (self, value):
         self.selectedOptions.add(value)
@@ -27,8 +28,15 @@ class TypicalWindow:
             self.selectedOptions.add(value)
 
     def selectOptionUpdateListBox(self, listBox, value):
-        listBox.insert(0, value)
-        self.selectedOptions.add(value)
+        if self.listBoxBuffer.__contains__(value):
+            idx = listBox.get(0, tk.END).index(value)
+            listBox.delete(idx)
+            listBox.insert(0, value)
+            self.selectedOptions.add(value)
+        else:
+            self.listBoxBuffer.add(value)
+            listBox.insert(0, value)
+            self.selectedOptions.add(value)
 
     def askSwitchMode(self, root):
         ans = messagebox.askquestion(title="Switch user mode",

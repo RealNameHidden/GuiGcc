@@ -5,6 +5,8 @@ from tkinter import messagebox
 
 import src.FileWindow as fileWindow
 import src.Start as start
+import os
+import pickle as pickle
 from util.commandDict import CommandDict as cd
 from util.util import Util
 
@@ -15,6 +17,11 @@ class NoviceWindow:
     dict = cd()
     executeList = ['C:\\MinGW\\bin\\gcc.exe']
     selectedOptions = set([])
+    listBoxBuffer = set([])
+
+    def loadListBox(self, listBox,usedList):
+        for x in usedList:
+            listBox.insert(0, x)
 
     def selectUsedOption(self, event):
         widget = event.widget
@@ -24,8 +31,15 @@ class NoviceWindow:
             self.selectedOptions.add(value)
 
     def selectOptionUpdateListBox(self, listBox, value):
-        listBox.insert(0, value)
-        self.selectedOptions.add(value)
+        if self.listBoxBuffer.__contains__(value):
+            idx = listBox.get(0, tk.END).index(value)
+            listBox.delete(idx)
+            listBox.insert(0, value)
+            self.selectedOptions.add(value)
+        else:
+            self.listBoxBuffer.add(value)
+            listBox.insert(0, value)
+            self.selectedOptions.add(value)
 
     def askSwitchMode(self, root):
         ans = messagebox.askquestion(title="Switch user mode",
@@ -180,7 +194,12 @@ class NoviceWindow:
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
         usedOptions = tk.Listbox(frameAllOptions, selectmode=tk.MULTIPLE)
         usedOptions.place(relx=0, rely=0.2, relwidth=1)
-        usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
+        # Loading used values from previous session
+        # if os.path.getsize('settings.txt') > 0:
+        #     with open('settings.txt', 'rb') as settings:
+        #         load = pickle.load(settings)
+        #         self.loadListBox(usedOptions, load.selectedOptions)
+        # usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
         btn_f = tk.OptionMenu(frameAllOptions, selected, *Options,
                               command=lambda x: self.selectOptionUpdateListBox(usedOptions, x))
         btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')

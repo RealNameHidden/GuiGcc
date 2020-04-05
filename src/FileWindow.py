@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 
 class FileWindow:
     def __init__(self, file):
@@ -20,16 +21,15 @@ class FileWindow:
         S.config(command=T.yview)
         T.config(yscrollcommand=S.set)
 
-        filehandle = open(file, 'r')
-        while True:
-            # read a single line
-            line = filehandle.readline()
-            if not line:
-                break
-            T.insert(tk.END,filehandle.read())
+        with open(file, 'r') as filehandle:
+            filehandle.seek(0,0)
+            while True:
+                # read a single line
+                line = filehandle.readline()
+                if not line:
+                    break
+                T.insert(tk.END,line)
+                
         T.config(state=tk.DISABLED)
-        # f= open(file, 'r')
-        # print(f.read())
-            # T.insert(f.read())
         root.mainloop()
         filehandle.close()

@@ -29,7 +29,7 @@ class FileWindow:
                 if not line:
                     break
                 T.insert(tk.END,line)
-                
+
         T.config(state=tk.DISABLED)
         root.mainloop()
         filehandle.close()

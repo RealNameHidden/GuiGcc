@@ -7,6 +7,7 @@ import src.FileWindow as fileWindow
 import src.Start as start
 from util.commandDict import CommandDict as cd
 from util.util import Util
+import pickle
 
 
 class NoviceWindow:
@@ -38,7 +39,8 @@ class NoviceWindow:
             self.listBoxBuffer.add(value)
             listBox.insert(0, value)
             self.selectedOptions.add(value)
-
+        with open('novice.txt', 'wb') as n_s:
+            pickle.dump(self, n_s, -1)
     def askSwitchMode(self, root):
         ans = messagebox.askquestion(title="Switch user mode",
                                      message="Switching user mode will close the current window, do you want proceed?")
@@ -96,17 +98,19 @@ class NoviceWindow:
             T.insert(tk.END, quote.stdout.decode())
 
 
-            # Emtying lists
+            # Emptying lists
             self.executeList = ['C:\\MinGW\\bin\\gcc.exe']
             self.selectedOptions.clear()
         else:
             messagebox.showerror("No file selected.", "Please select a file to compile.")
 
-    def __init__(self):
+    def __init__(self,listBoxBuff):
         util = Util()
         root = tk.Tk()
         root.title("Smart Gcc GUI")
 
+        self.listBoxBuffer=listBoxBuff
+        print(self.listBoxBuffer)
         width_of_window = 600
         height_of_window = 700
         canvas = tk.Canvas(root, width=width_of_window, height=height_of_window)
@@ -198,10 +202,14 @@ class NoviceWindow:
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
         usedOptions = tk.Listbox(frameAllOptions, selectmode=tk.MULTIPLE)
         usedOptions.place(relx=0, rely=0.2, relwidth=1)
+        if self.listBoxBuffer.__len__()!=0:
+            self.loadListBox(usedOptions,self.listBoxBuffer)
         usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
         btn_f = tk.OptionMenu(frameAllOptions, selected, *Options,
                               command=lambda x: self.selectOptionUpdateListBox(usedOptions, x))
         btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')
 
-        ##### List Box ####
+
+        #save
+
         root.mainloop()

@@ -7,6 +7,7 @@ import pickle as pickle
 import os
 
 class Start:
+    empty=set([])
     util = Util()
     preferred_screen=""
     def makeWindow(self,root,type):
@@ -15,12 +16,23 @@ class Start:
 
         if type =='Beginner':
                 self.preferred_screen = type
-                novice = NoviceWindow()
+                if os.path.getsize('novice.txt') > 0:
+                    with open('novice.txt', 'rb') as n_s:
+                        load_start = pickle.load(n_s)
+                        novice = NoviceWindow(load_start.listBoxBuffer)
+                else:
+                    novice = NoviceWindow(self.empty)
                 with open('settings.txt', 'wb') as settings:
                     pickle.dump(self, settings, -1)
+
         elif type =='Medium':
                 self.preferred_screen = type
-                medium = TypicalWindow()
+                if os.path.getsize('typical.txt') > 0:
+                    with open('typical.txt', 'rb') as t_s:
+                        load_start = pickle.load(t_s)
+                        medium = TypicalWindow(load_start.listBoxBuffer)
+                else:
+                    medium = TypicalWindow(self.empty)
                 with open('settings.txt', 'wb') as settings:
                     pickle.dump(self, settings, -1)
                     # pickle.dump(medium, settings, -2)

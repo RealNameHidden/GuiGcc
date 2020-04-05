@@ -5,6 +5,7 @@ from tkinter import messagebox
 
 import src.FileWindow as fileWindow
 import src.Start as start
+import pickle
 from util.commandDict import CommandDict as cd
 from util.util import Util
 
@@ -16,6 +17,10 @@ class TypicalWindow:
     executeList = ['C:\\MinGW\\bin\\gcc.exe']
     selectedOptions = set([])
     listBoxBuffer = set([])
+
+    def loadListBox(self, listBox, usedList):
+        for x in usedList:
+            listBox.insert(0, x)
 
     def typicalUserOption (self, value):
         self.selectedOptions.add(value)
@@ -37,6 +42,8 @@ class TypicalWindow:
             self.listBoxBuffer.add(value)
             listBox.insert(0, value)
             self.selectedOptions.add(value)
+        with open('typical.txt', 'wb') as n_s:
+            pickle.dump(self, n_s, -1)
 
     def askSwitchMode(self, root):
         ans = messagebox.askquestion(title="Switch user mode",
@@ -94,10 +101,12 @@ class TypicalWindow:
         else:
             messagebox.showerror("No file selected.", "Please select a file to compile.")
 
-    def __init__(self):
+    def __init__(self, listBoxBuff):
         util = Util()
         root = tk.Tk()
         root.title("Smart Gcc GUI")
+
+        self.listBoxBuffer=listBoxBuff
 
         width_of_window = 600
         height_of_window = 700
@@ -205,6 +214,8 @@ class TypicalWindow:
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
         usedOptions = tk.Listbox(frameAllOptions, selectmode=tk.MULTIPLE)
         usedOptions.place(relx=0, rely=0.2, relwidth=1)
+        if self.listBoxBuffer.__len__() != 0:
+            self.loadListBox(usedOptions, self.listBoxBuffer)
         usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
         btn_f = tk.OptionMenu(frameAllOptions, selected, *Options,
                               command=lambda x: self.selectOptionUpdateListBox(usedOptions, x))

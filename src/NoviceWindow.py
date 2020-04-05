@@ -194,12 +194,7 @@ class NoviceWindow:
         frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
         usedOptions = tk.Listbox(frameAllOptions, selectmode=tk.MULTIPLE)
         usedOptions.place(relx=0, rely=0.2, relwidth=1)
-        # Loading used values from previous session
-        # if os.path.getsize('settings.txt') > 0:
-        #     with open('settings.txt', 'rb') as settings:
-        #         load = pickle.load(settings)
-        #         self.loadListBox(usedOptions, load.selectedOptions)
-        # usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
+        usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
         btn_f = tk.OptionMenu(frameAllOptions, selected, *Options,
                               command=lambda x: self.selectOptionUpdateListBox(usedOptions, x))
         btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')

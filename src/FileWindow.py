@@ -32,3 +32,4 @@ class FileWindow:
         # print(f.read())
             # T.insert(f.read())
         root.mainloop()
+        filehandle.close()

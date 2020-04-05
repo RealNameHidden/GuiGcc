@@ -15,7 +15,6 @@ class Start:
 
         if type =='Beginner':
                 self.preferred_screen = type
-
                 novice = NoviceWindow()
                 with open('settings.txt', 'wb') as settings:
                     pickle.dump(self, settings, -1)

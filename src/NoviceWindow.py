@@ -5,8 +5,6 @@ from tkinter import messagebox
 
 import src.FileWindow as fileWindow
 import src.Start as start
-import os
-import pickle as pickle
 from util.commandDict import CommandDict as cd
 from util.util import Util
 
@@ -87,9 +85,16 @@ class NoviceWindow:
                 print(commandListString)
                 T.insert(tk.END, "command:" + " gcc " + commandListString)
             else:
-                T.insert(tk.END, "Error in command!\n\n")
+                T.insert(tk.END, "Error in command execution\n\n")
                 T.insert(tk.END, quote.stderr.decode())
+                itercom = iter(self.executeList)
+                next(itercom)
+                for com in itercom:
+                    commandListString = commandListString + com + " "
+                print(commandListString)
+                T.insert(tk.END, "command:" + " gcc " + commandListString)
             T.insert(tk.END, quote.stdout.decode())
+
 
             # Emtying lists
             self.executeList = ['C:\\MinGW\\bin\\gcc.exe']
@@ -110,6 +115,8 @@ class NoviceWindow:
         checkCompile = tk.BooleanVar()
         checkDebug = tk.BooleanVar()
         checkLink = tk.BooleanVar()
+        ######## All options variable
+        selected = tk.StringVar()
         ########
         basicList = {'checkCompile': checkCompile, 'checkDebug': checkDebug, 'checkLink': checkLink}
         ########
@@ -161,13 +168,9 @@ class NoviceWindow:
         frame3 = tk.Frame(frame0, bg="#241C15", bd=2)
         frame3.place(relx=0.02, rely=0.1, relwidth=0.5, relheight=0.05)
         lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
-        lbl_file.place(relx=0.1, relwidth=1)
+        lbl_file.place(relx=0.21)
         btn_file = tk.Button(frame3, text="File", width=3, bg="#F6F6F4", command=lambda: self.openFileDialog(lbl_file))
         btn_file.place(relwidth=0.2, relheight=1)
-        # label
-
-        lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
-        lbl_file.place(relx=0.5)
 
         """
         Frame 4 - Checkbox and options frame
@@ -186,8 +189,9 @@ class NoviceWindow:
         """
         Frame 5 - All options menu 
         """
-        Options = cd.gcc_codegeneration.values()
-        selected = tk.StringVar()
+        z = {**cd.gcc_codegeneration, **cd.gcc_codeoptimization}
+        Options = z.values()
+        # selected = tk.StringVar()
 
         selected.set("All Options")
         frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)

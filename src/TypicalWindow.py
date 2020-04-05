@@ -155,13 +155,10 @@ class TypicalWindow:
         frame3 = tk.Frame(frame0, bg="#241C15", bd=2)
         frame3.place(relx=0.02, rely=0.1, relwidth=0.5, relheight=0.05)
         lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
-        lbl_file.place(relx=0.1, relwidth=1)
+        lbl_file.place(relx=0.21)
         btn_file = tk.Button(frame3, text="File", width=3, bg="#F6F6F4", command=lambda: self.openFileDialog(lbl_file))
         btn_file.place(relwidth=0.2, relheight=1)
-        # label
 
-        lbl_file = tk.Label(frame3, text=self.filename, bg="#241C15", fg="#8C8C8C")
-        lbl_file.place(relx=0.5)
 
         """
         Frame 4 - Checkbox and options frame

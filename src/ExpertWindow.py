@@ -58,7 +58,7 @@ class ExpertWindow:
 
         if self.filename != self.defaultFile and self.filename != "":
             self.executeList.append(self.filename)
-        self.executeList.append('-o''-')
+        self.executeList.append('-o ''-')
     def runCommand(self, T, baseList):
         self.getCommands(baseList)
 
@@ -197,18 +197,5 @@ class ExpertWindow:
         """
         Frame 5 - All options menu 
         """
-        # Options = cd.gcc_codegeneration.values()
-        # selected = tk.StringVar()
-        #
-        # selected.set("All Options")
-        # frameAllOptions = tk.Frame(frame0, bg="#241C15", bd=2)
-        # frameAllOptions.place(relx=0.6, rely=0.1, relwidth=0.4, relheight=0.25)
-        # usedOptions = tk.Listbox(frameAllOptions, selectmode=tk.MULTIPLE)
-        # usedOptions.place(relx=0, rely=0.2, relwidth=1)
-        # usedOptions.bind("<<ListboxSelect>>", self.selectUsedOption)
-        # btn_f = tk.OptionMenu(frameAllOptions, selected, *Options,
-        #                       command=lambda x: self.selectOptionUpdateListBox(usedOptions, x))
-        # btn_f.place(relx=0.5, rely=0, relwidth=0.5, relheight=0.15, anchor='n')
 
-        ##### List Box ####
         root.mainloop()

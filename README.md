@@ -1,5 +1,13 @@
 # GuiGcc
 ####Team 7
+| Student | Id| 
+| :---: | :---: | 
+| Dheeraj Ashok Shobha | 40082192|
+| Manasa Murali | 40082609|
+| Hina Masood Ahmed| 40076287|
+| Nivetha Ravi | 40085910|
+| Piyush Piyush | 40081576|
+| Uchechukwu Iroegbu | 40035881|
 
 ###Application set up:
 

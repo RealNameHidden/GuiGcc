@@ -3,10 +3,10 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 
-import src.FileWindow as fileWindow
-import src.Start as start
-from util.commandDict import CommandDict as cd
-from util.util import Util
+import FileWindow as fileWindow
+import Start as start
+from commandDict import CommandDict as cd
+from util import Util
 import pickle
 
 

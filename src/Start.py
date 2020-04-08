@@ -1,7 +1,7 @@
-from util.util import Util
-from src.NoviceWindow import NoviceWindow
-from src.TypicalWindow import TypicalWindow
-from src.ExpertWindow import ExpertWindow
+from util import Util
+from NoviceWindow import NoviceWindow
+from TypicalWindow import TypicalWindow
+from ExpertWindow import ExpertWindow
 import tkinter as tk
 import pickle as pickle
 import os

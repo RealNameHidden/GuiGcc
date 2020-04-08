@@ -1,4 +1,4 @@
-import src.Start as start
+import Start as start
 import pickle
 import os
 

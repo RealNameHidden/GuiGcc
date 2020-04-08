@@ -6,3 +6,4 @@ src/__pycache__/
 util/__pycache__/
 
 src/settings.txt
+/.DS_Store

@@ -17,6 +17,9 @@ Pre requisites:
 2. Python version 3.+ should be installed. 
 3. Install Pycharm IDE community edition (recommended)
 
+### Before You proceed to run the App:
+The Gcc path in the project is "C:\\MinGW\\bin\\gcc.exe". If this is not the location of Gcc in your computer open the project in VS code or Pycharm and Find and replace the give path with the path of the gcc.exe in your computer.
+
 ### To run the app:
 ##### Through IDE:  [Recommend to use the IDE to void unexpected errors and run the app smoothly]
 
